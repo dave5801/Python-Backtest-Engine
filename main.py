@@ -2,6 +2,7 @@ from utils.data_loader import load_data
 from strategies.moving_average import MovingAverageCrossStrategy
 from engine.backtester import Backtester
 import matplotlib.pyplot as plt
+from utils.metrics import compute_cagr, compute_max_drawdown, compute_sharpe_ratio
 
 if __name__ == "__main__":
     # Load historical price data
@@ -21,6 +22,12 @@ if __name__ == "__main__":
         bt = Backtester(data, strategy)
         equity_curve = bt.run()
         print("Backtest completed.")
+        cagr = compute_cagr(equity_curve)
+        max_dd = compute_max_drawdown(equity_curve)
+        sharpe = compute_sharpe_ratio(equity_curve)
+        print(f"CAGR: {cagr:.2%}")
+        print(f"Max Drawdown: {max_dd:.2%}")
+        print(f"Sharpe Ratio: {sharpe:.2f}")
     except Exception as e:
         print("Backtest failed:", e)
         exit(1)
